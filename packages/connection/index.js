@@ -31,10 +31,10 @@ class Connection extends EventEmitter {
       await this.send(
         // prettier-ignore
         xml('stream:error', {}, [
-          xml(condition, {xmlns: NS_STREAM}, children),
+          xml(condition, { xmlns: NS_STREAM }, children),
         ]),
       );
-    } catch {}
+    } catch { }
 
     return this.disconnect();
   }
@@ -358,10 +358,10 @@ class Connection extends EventEmitter {
   }
 
   // Override
-  footerElement() {}
+  footerElement() { }
 
   // Override
-  socketParameters() {}
+  socketParameters() { }
 
   /* Experimental hooks */
   #hooks = new Map();

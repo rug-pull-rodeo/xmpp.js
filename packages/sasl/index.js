@@ -36,11 +36,11 @@ async function authenticate({ saslFactory, entity, mechanism, credentials }) {
   await procedure(
     entity,
     mech.clientFirst &&
-      xml(
-        "auth",
-        { xmlns: NS, mechanism: mech.name },
-        encode(await mech.response(creds)),
-      ),
+    xml(
+      "auth",
+      { xmlns: NS, mechanism: mech.name },
+      encode(await mech.response(creds)),
+    ),
     async (element, done) => {
       if (element.getNS() !== NS) return;
 
@@ -84,8 +84,8 @@ export default function sasl({ streamFeatures, saslFactory }, onAuthenticate) {
       });
     }
 
-    await onAuthenticate(done, mechanisms, null, entity);
-
-    await entity.restart();
+    if (await onAuthenticate(done, mechanisms, null, entity)) {
+      await entity.restart();
+    }
   });
 }

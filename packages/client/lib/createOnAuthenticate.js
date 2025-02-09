@@ -4,8 +4,7 @@ const PLAIN = "PLAIN";
 export default function createOnAuthenticate(credentials, userAgent) {
   return async function onAuthenticate(...args) {
     if (typeof credentials === "function") {
-      await credentials(...args);
-      return;
+      return await credentials(...args);
     }
 
     const [authenticate, mechanisms, fast, entity] = args;
@@ -13,7 +12,11 @@ export default function createOnAuthenticate(credentials, userAgent) {
     credentials.token ??= await fast?.fetch();
 
     const mechanism = getMechanism({ mechanisms, entity, credentials });
-    await authenticate(credentials, mechanism, userAgent);
+    if (credentials?.username && credentials?.password) {
+      await authenticate(credentials, mechanism, userAgent);
+      return true;
+    }
+    return false;
   };
 }
 

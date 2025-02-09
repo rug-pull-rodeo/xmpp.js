@@ -63,6 +63,7 @@ function client(options = {}) {
 
   // Stream features - order matters and define priority
   const starttls = setupIfAvailable(_starttls, { streamFeatures });
+
   const sasl2 = _sasl2(
     { streamFeatures, saslFactory },
     createOnAuthenticate(credentials ?? { username, password }, userAgent),
